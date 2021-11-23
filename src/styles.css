@@ -10,9 +10,9 @@ input {
   border: none;
 }
 #canvas {
-  width: 100%;
-  height: 90vh;
-  border: 2px solid white;
+  position: relative;
+  background-color: white;
+  border: 2px solid transparent;
 }
 body {
   height: 100vh;
@@ -28,7 +28,7 @@ body {
   width: 100vw;
   display: grid;
   grid-template-rows: 1fr;
-  grid-template-columns: 30px 30px 30px 30px 30px 30px 1fr;
+  grid-template-columns: 30px 30px 30px 30px 30px 30px 30px 1fr;
   text-align: center;
   column-gap: 10px;
 }

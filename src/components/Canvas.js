@@ -9,60 +9,73 @@ const Canvas = ({
 }) => {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
+  const [height, setHeight] = useState(1);
+  const [width, setWidth] = useState(1);
   const [isDrawing, setIsDrawing] = useState(false);
+  const updateWidthAndHeight = () => {
+    setWidth(window.innerWidth);
+    setHeight(window.innerHeight);
+  };
   useEffect(() => {
     const canvas = canvasRef.current;
     setCanvasRef(canvas);
-    canvas.width = window.innerWidth * 2;
-    canvas.height = window.innerHeight * 2;
-    canvas.style.width = `${window.innerWidth}px`;
-    canvas.style.height = `${window.innerHeight}px`;
     const context = canvas.getContext("2d");
-    context.fillStyle = "#ffffff";
-    context.fillRect(0, 0, context.canvas.width, context.canvas.height);
-    context.scale(2, 2);
     context.lineCap = "round";
     contextRef.current = context;
+    updateWidthAndHeight();
+    window.addEventListener("resize", updateWidthAndHeight);
+    return () => window.removeEventListener("resize", updateWidthAndHeight);
   }, [setCanvasRef]);
   useEffect(() => {
     if (clearDraw) {
-      const canvas = canvasRef.current;
-      const context = canvas.getContext("2d");
-      context.fillStyle = "white";
-      context.fillRect(0, 0, canvas.width, canvas.height);
+      contextRef.current.clearRect(
+        0,
+        0,
+        (canvasRef.current.width = window.innerWidth),
+        (canvasRef.current.height = window.innerHeight)
+      );
       setClearDraw(false);
     }
     contextRef.current.strokeStyle = `${eraser ? "white" : colour}`;
     contextRef.current.lineWidth = size;
   }, [colour, size, clearDraw, setClearDraw, eraser]);
 
-  const StartDrawing = ({ nativeEvent }) => {
-    const { offsetX, offsetY } = nativeEvent;
-    contextRef.current.beginPath();
-    contextRef.current.moveTo(offsetX, offsetY);
+  const StartDrawing = (e) => {
     setIsDrawing(true);
+    contextRef.current.beginPath();
   };
   const FinishDrawing = () => {
     contextRef.current.closePath();
     setIsDrawing(false);
   };
-  const Draw = ({ nativeEvent }) => {
+  const Draw = (e) => {
     if (!isDrawing) {
       return;
     }
-    const { offsetX, offsetY } = nativeEvent;
-    contextRef.current.lineTo(offsetX, offsetY);
+    contextRef.current.lineTo(e.clientX, e.clientY);
+    contextRef.current.lineCap = "round";
     contextRef.current.stroke();
+    contextRef.current.moveTo(e.clientX, e.clientY);
   };
 
   return (
     <>
       <canvas
+        onTouchEnd={() => {
+          setIsDrawing(false);
+          contextRef.current.beginPath();
+        }}
+        onTouchStart={() => {
+          setIsDrawing(true);
+        }}
+        onTouchMove={(e) => Draw(e.touches[0])}
         ref={canvasRef}
         onMouseDown={StartDrawing}
         onMouseMove={Draw}
         onMouseUp={FinishDrawing}
         id="canvas"
+        height={height}
+        width={width}
       ></canvas>
     </>
   );
