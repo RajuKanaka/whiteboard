@@ -13,8 +13,15 @@ const Canvas = ({
   const [width, setWidth] = useState(1);
   const [isDrawing, setIsDrawing] = useState(false);
   const updateWidthAndHeight = () => {
+    let imageData = contextRef.current.getImageData(
+      0,
+      0,
+      canvasRef.current.width,
+      canvasRef.current.height
+    );
     setWidth(window.innerWidth);
     setHeight(window.innerHeight);
+    contextRef.current.putImageData(imageData, 0, 0);
   };
   useEffect(() => {
     const canvas = canvasRef.current;
