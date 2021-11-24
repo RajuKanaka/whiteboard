@@ -22,17 +22,18 @@ const Canvas = ({
     const context = canvas.getContext("2d");
     context.lineCap = "round";
     contextRef.current = context;
+    contextRef.current.lineWidth = size;
     updateWidthAndHeight();
     window.addEventListener("resize", updateWidthAndHeight);
     return () => window.removeEventListener("resize", updateWidthAndHeight);
-  }, [setCanvasRef]);
+  }, [setCanvasRef, size]);
   useEffect(() => {
     if (clearDraw) {
       contextRef.current.clearRect(
         0,
         0,
-        (canvasRef.current.width = window.innerWidth),
-        (canvasRef.current.height = window.innerHeight)
+        canvasRef.current.width,
+        canvasRef.current.height
       );
       setClearDraw(false);
     }
@@ -45,7 +46,7 @@ const Canvas = ({
     contextRef.current.beginPath();
   };
   const FinishDrawing = () => {
-    contextRef.current.closePath();
+    contextRef.current.beginPath();
     setIsDrawing(false);
   };
   const Draw = (e) => {
@@ -53,10 +54,12 @@ const Canvas = ({
       return;
     }
     contextRef.current.lineTo(e.clientX, e.clientY);
+    contextRef.current.lineWidth = size;
     contextRef.current.lineCap = "round";
     contextRef.current.stroke();
     contextRef.current.moveTo(e.clientX, e.clientY);
   };
+  console.log(width);
 
   return (
     <>
@@ -74,7 +77,7 @@ const Canvas = ({
         onMouseMove={Draw}
         onMouseUp={FinishDrawing}
         id="canvas"
-        height={height}
+        height={height - 50}
         width={width}
       ></canvas>
     </>

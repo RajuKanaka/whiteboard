@@ -29,19 +29,6 @@ export default function App() {
   const [eraser, setEraser] = useState(false);
   return (
     <div className="App">
-      <div className="toolkit">
-        <Toolkit
-          canvasRef={canvasRef}
-          HandleIncrement={HandleIncrement}
-          HandleDecrement={HandleDecrement}
-          HandleClear={HandleClear}
-          HandleOnChange={HandleOnChange}
-          color={colour}
-          size={size}
-          setEraser={setEraser}
-          eraser={eraser}
-        />
-      </div>
       <Canvas
         setClearDraw={setClearDraw}
         size={size}
@@ -50,6 +37,21 @@ export default function App() {
         setCanvasRef={setCanvasRef}
         eraser={eraser}
       />
+      <div className="absolute-toolkit">
+        <div className="toolkit">
+          <Toolkit
+            canvasRef={canvasRef}
+            HandleIncrement={HandleIncrement}
+            HandleDecrement={HandleDecrement}
+            HandleClear={HandleClear}
+            HandleOnChange={HandleOnChange}
+            color={colour}
+            size={size}
+            setEraser={setEraser}
+            eraser={eraser}
+          />
+        </div>
+      </div>
     </div>
   );
 }

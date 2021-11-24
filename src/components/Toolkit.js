@@ -31,13 +31,13 @@ const Toolkit = ({
   };
   return (
     <>
-      <button onClick={HandleDecrement} className="item increment">
+      <button onClick={HandleDecrement} className="item increment br">
         -
       </button>
-      <div onChange={HandleOnChange} className=" item size">
+      <div onChange={HandleOnChange} className=" item size br">
         {size}
       </div>
-      <button onClick={HandleIncrement} className="item decrement">
+      <button onClick={HandleIncrement} className="item decrement br">
         +
       </button>
       <input
@@ -45,9 +45,9 @@ const Toolkit = ({
         value={color}
         type="color"
         id="color"
-        className="item"
+        className="item br"
       />
-      <button onClick={downloadImage} className="item downloadBtn">
+      <button onClick={downloadImage} className="item downloadBtn br">
         <svg
           aria-hidden="true"
           focusable="false"
@@ -67,7 +67,7 @@ const Toolkit = ({
       <div
         onClick={HandleEraser}
         style={{ background: `${!eraser ? "white" : "grey"}` }}
-        className="item eraser"
+        className="item eraser br"
       >
         <svg
           aria-hidden="true"
@@ -85,7 +85,7 @@ const Toolkit = ({
           ></path>
         </svg>
       </div>
-      <div onClick={HandleGithub} className="item">
+      <div onClick={HandleGithub} className="item github br">
         <svg
           aria-hidden="true"
           focusable="false"
@@ -102,7 +102,7 @@ const Toolkit = ({
           ></path>
         </svg>
       </div>
-      <div onClick={HandleClear} className="item clear">
+      <div onClick={HandleClear} className="item clear br">
         Clear
       </div>
     </>
